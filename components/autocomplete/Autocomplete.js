@@ -26,6 +26,7 @@ const factory = (Chip, Input) => {
         PropTypes.string,
         PropTypes.node,
       ]),
+      itemTemplate: PropTypes.func,
       keepFocusOnChange: PropTypes.bool,
       label: PropTypes.oneOfType([
         PropTypes.string,
@@ -38,6 +39,7 @@ const factory = (Chip, Input) => {
       onQueryChange: PropTypes.func,
       query: PropTypes.string,
       selectedPosition: PropTypes.oneOf(['above', 'below', 'none']),
+      selectedTemplate: PropTypes.func,
       showSelectedWhenNotInSource: PropTypes.bool,
       showSuggestionsWhenValueIsSet: PropTypes.bool,
       source: PropTypes.any,
