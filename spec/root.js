@@ -3,20 +3,26 @@ import 'normalize.css';
 import React, { Component } from 'react';
 
 import { Layout, Panel, NavDrawer } from 'react-toolbox/lib/layout';
-import { AppBar } from 'react-toolbox';
+import {AppBar, Avatar, Chip} from 'react-toolbox';
 import ButtonToolbox from 'react-toolbox/lib/button';
 
+import Autocomplete from './components/autocomplete';
 import Range from './components/range';
 import style from './style.css';
 
-class Root extends Component {
-  state = { pinned: false };
+const source = [
+  {id:1, name:'England', flag:'GB'},
+  {id:2, name:'Finland', flag:'FI'},
+  {id:3, name:'Hungary', flag:'HU'},
+  {id:4, name:'Germany', flag:'DE'},
+  {id:5, name:'Switzerland', flag:'CH'}
+];
 
-  handleSideBarToggle = () => {
-    this.setState({ pinned: !this.state.pinned });
-  };
+class Root extends Component {
+  state = { pinned: false, values: [] };
 
   render() {
+    console.log(this.state.values);
     return (
       <Layout>
         <AppBar
@@ -48,6 +54,7 @@ class Root extends Component {
 
         <Panel className={style.app}>
           <Range />
+          <Autocomplete />
         </Panel>
       </Layout>
     );
