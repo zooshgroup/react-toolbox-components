@@ -403,7 +403,7 @@ const factory = (Chip, Input) => {
 
     render() {
       const {
-      allowCreate, error, label, source, suggestionMatch, query, // eslint-disable-line no-unused-vars
+      allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, // eslint-disable-line no-unused-vars
       selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange,   // eslint-disable-line no-unused-vars
       theme, ...other
     } = this.props;
