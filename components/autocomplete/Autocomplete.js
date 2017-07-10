@@ -67,7 +67,7 @@ const factory = (Chip, Input) => {
       selectedPosition: 'above',
       showSelectedWhenNotInSource: false,
       showSuggestionsWhenValueIsSet: false,
-      source: {},
+      source: [],
       suggestionMatch: 'start',
     };
 
@@ -77,6 +77,8 @@ const factory = (Chip, Input) => {
       showAllSuggestions: this.props.showSuggestionsWhenValueIsSet,
       query: this.props.query ? this.props.query : this.query(this.props.value),
       isValueAnObject: false,
+      source: [],
+      selected: true,
     };
 
     constructor(props){
@@ -113,7 +115,7 @@ const factory = (Chip, Input) => {
     handleChange = (values, event) => {
       const value = this.props.multiple ? values : values[0];
       const { showSuggestionsWhenValueIsSet: showAllSuggestions } = this.props;
-      const query = this.query(value);
+      const query = this.state.source.get(values[0]).name;
       if (this.props.onChange) this.props.onChange(value, event);
       if (this.props.keepFocusOnChange) {
         this.setState({ query, showAllSuggestions });
@@ -123,6 +125,7 @@ const factory = (Chip, Input) => {
         });
       }
       this.updateQuery(query, this.props.query);
+      this.setState({selected: true});
     };
 
     handleMouseDown = (event) => {
@@ -144,7 +147,7 @@ const factory = (Chip, Input) => {
       this.clearQuery = false;
 
       this.updateQuery(query, true);
-      this.setState({ showAllSuggestions: query ? false : this.props.showSuggestionsWhenValueIsSet, active: null });
+      this.setState({ showAllSuggestions: query ? false : this.props.showSuggestionsWhenValueIsSet, active: null, selected: false });
     };
 
     handleQueryFocus = (event) => {
@@ -279,12 +282,14 @@ const factory = (Chip, Input) => {
     }
 
     source() {
-      return this.state.source || new Map();
+      if (!this.state || !this.state.source) {
+        return new Map();
+      }
+      return this.state.source;
     }
 
     values() {
       let vals = this.props.multiple ? this.props.value : [this.props.value];
-
       if (!vals) vals = [];
 
       if (this.props.showSelectedWhenNotInSource && this.isValueAnObject()) {
@@ -401,6 +406,13 @@ const factory = (Chip, Input) => {
       );
     }
 
+    getInputValue = () => {
+      if(this.state.selected && !this.props.multiple){
+        return this.state.source.get(this.state.query).name;
+      }
+      return this.state.query;
+    }
+
     render() {
       const {
       allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, // eslint-disable-line no-unused-vars
@@ -428,7 +440,7 @@ const factory = (Chip, Input) => {
             onKeyUp={this.handleQueryKeyUp}
             theme={theme}
             themeNamespace="input"
-            value={this.state.query}
+            value={this.getInputValue()}
           />
           {this.renderSuggestions()}
           {this.props.selectedPosition === 'below' ? this.renderSelected() : null}
