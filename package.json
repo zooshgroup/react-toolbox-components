@@ -1,14 +1,12 @@
 {
-  "name": "react-toolbox-components",
-  "description": "A set of React components implementing Google's Material Design specification with the power of CSS Modules.",
+  "name": "@zooshgroup/react-toolbox-components",
+  "description": "Some additional components for the react-toolbox package",
   "homepage": "http://www.react-toolbox.com",
-  "version": "2.0.0-beta.11",
+  "version": "0.1.0",
   "main": "./lib",
   "module": "./components",
   "author": {
-    "email": "javier.velasco86@gmail.com",
-    "name": "Javier Velasco Arjona",
-    "url": "http://javivelasco.com/"
+    "name": "Zoosh Group"
   },
   "repository": {
     "type": "git",
