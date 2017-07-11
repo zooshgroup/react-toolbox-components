@@ -23,6 +23,15 @@ class RangeTest extends React.Component {
         <Range pinned snaps min={0} max={10} step={2} editable value={this.state.range3} onChange={this.handleChange.bind(this, 'range3')} />
         <p>Disabled status</p>
         <Range disabled pinned snaps min={0} max={10} step={2} editable value={this.state.range3} onChange={this.handleChange.bind(this, 'range3')} />
+        <p>Map pinned text</p>
+        <Range
+          pinned
+          step={1}
+          max={200}
+          mapValueOnPin={x => { const inch = x / 2.54; return `${Math.floor(inch / 12)}'${Math.round(inch % 12)}"`; }}
+          value={this.state.range4}
+          onChange={this.handleChange.bind(this, 'range4')}
+        />
       </section>
     );
   }

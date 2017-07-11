@@ -16,6 +16,7 @@ const factory = (ProgressBar, Input) => {
       className: PropTypes.string,
       disabled: PropTypes.bool,
       editable: PropTypes.bool,
+      mapValueOnPin: PropTypes.func,
       max: PropTypes.number,
       min: PropTypes.number,
       onChange: PropTypes.func,
@@ -50,6 +51,7 @@ const factory = (ProgressBar, Input) => {
       buffer: 0,
       className: '',
       editable: false,
+      mapValueOnPin: x => x,
       max: 100,
       min: 0,
       onDragStart: () => {},
@@ -341,6 +343,11 @@ const factory = (ProgressBar, Input) => {
       );
     }
 
+    renderPinnedValue = (value) => {
+      const intValue = parseInt(value, 10);
+      return this.props.mapValueOnPin(intValue);
+    }
+
     render() {
       const { theme } = this.props;
       const knobStyles = { left: `${this.knobOffset(this.props.value.first)}%` };
@@ -376,7 +383,10 @@ const factory = (ProgressBar, Input) => {
               onTouchStart={this.handleTouchStart}
               style={knobStyles}
             >
-              <div className={theme.innerknob} data-value={parseInt(this.props.value.first, 10)} />
+              <div
+                className={theme.innerknob}
+                data-value={this.renderPinnedValue(this.props.value.first)}
+              />
             </div>
 
             <div
@@ -386,7 +396,10 @@ const factory = (ProgressBar, Input) => {
               onTouchStart={this.handleTouchStart}
               style={otherKnobStyles}
             >
-              <div className={theme.innerknob} data-value={parseInt(this.props.value.second, 10)} />
+              <div
+                className={theme.innerknob}
+                data-value={this.renderPinnedValue(this.props.value.second)}
+              />
             </div>
 
             <div className={theme.progress}>
