@@ -10,11 +10,23 @@ const source = [
   {id:5, name:'Switzerland', flag:'CH'}
 ];
 
+const source2 = [
+  {id:1, name:'England', flag:'GB'},
+  {id:2, name:'Finland', flag:'FI'},
+  {id:3, name:'Hungary', flag:'HU'},
+  {id:4, name:'Germany', flag:'DE'},
+  {id:5, name:'Switzerland', flag:'CH'}
+];
+
 class AutocompleteTest extends React.Component {
-    state = { values: [] };
+    state = { values: [], singleValue: 1 };
 
     handleChange = (value) => {
       this.setState({values: value});
+    };
+
+    handleSingleChange = (value) => {
+      this.setState({singleValue: value});
     };
 
     selectedTemplate(item, callback){
@@ -43,6 +55,7 @@ class AutocompleteTest extends React.Component {
     return (
       <section id="Autocomplete">
         <h5>Autocomplete</h5>
+        <p>Multi select</p>
         <Autocomplete
           direction="down"
           selectedPosition="above"
@@ -52,6 +65,17 @@ class AutocompleteTest extends React.Component {
           value={this.state.values}
           selectedTemplate={this.selectedTemplate}
           itemTemplate={this.itemTemplate}
+        />
+        <p>Single select</p>
+        <Autocomplete
+          suggestionMatch="anywhere"
+          showSuggestionsWhenValueIsSet
+          direction="down"
+          onChange={this.handleSingleChange}
+          label="Select a country"
+          source={source2}
+          value={this.state.singleValue}
+          multiple={false}
         />
       </section>
     );

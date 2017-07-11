@@ -75,11 +75,21 @@ const factory = (Chip, Input) => {
       direction: this.props.direction,
       focus: false,
       showAllSuggestions: this.props.showSuggestionsWhenValueIsSet,
-      query: this.props.query ? this.props.query : this.query(this.props.value),
+      query: this.initQuery(),
       isValueAnObject: false,
       source: [],
       selected: true,
     };
+
+    initQuery(){
+      if(this.props.query){
+        return this.props.query;
+      }
+      if(!this.props.multiple && this.props.value){
+        return this.query(this.props.value);
+      }
+      return '';
+    }
 
     constructor(props){
       super(props);
@@ -113,9 +123,9 @@ const factory = (Chip, Input) => {
     }
 
     handleChange = (values, event) => {
-      const value = this.props.multiple ? values : values[0];
+      const value = values;
       const { showSuggestionsWhenValueIsSet: showAllSuggestions } = this.props;
-      const query = this.state.source.get(values[0]).name;
+      const query = this.query(value);
       if (this.props.onChange) this.props.onChange(value, event);
       if (this.props.keepFocusOnChange) {
         this.setState({ query, showAllSuggestions });
@@ -125,7 +135,9 @@ const factory = (Chip, Input) => {
         });
       }
       this.updateQuery(query, this.props.query);
-      this.setState({selected: true});
+      if(!this.props.multiple) {
+        this.setState({selected: true});
+      }
     };
 
     handleMouseDown = (event) => {
@@ -157,12 +169,12 @@ const factory = (Chip, Input) => {
     };
 
     handleQueryKeyDown = (event) => {
-     // Mark query for clearing in handleQueryChange when pressing backspace and showing all suggestions.
+      // Mark query for clearing in handleQueryChange when pressing backspace and showing all suggestions.
       this.clearQuery = (
-       event.which === 8
-       && this.props.showSuggestionsWhenValueIsSet
-       && this.state.showAllSuggestions
-     );
+        event.which === 8
+        && this.props.showSuggestionsWhenValueIsSet
+        && this.state.showAllSuggestions
+      );
 
       if (event.which === 13) {
         this.selectOrCreateActiveItem(event);
@@ -208,8 +220,8 @@ const factory = (Chip, Input) => {
       let target = this.state.active;
       if (!target) {
         target = this.props.allowCreate
-         ? this.state.query
-         : [...this.suggestions().keys()][0];
+          ? this.state.query
+          : [...this.suggestions().keys()][0];
         this.setState({ active: target });
       }
       this.select(event, target);
@@ -238,7 +250,7 @@ const factory = (Chip, Input) => {
       const values = this.values();
       const source = this.source();
 
-     // Suggest any non-set value which matches the query
+      // Suggest any non-set value which matches the query
       if (this.props.multiple) {
         for (const [key, value] of source) {
           if (!values.has(key) && this.matches(this.normalise(value.name), query)) {
@@ -246,7 +258,7 @@ const factory = (Chip, Input) => {
           }
         }
 
-     // When multiple is false, suggest any value which matches the query if showAllSuggestions is false
+        // When multiple is false, suggest any value which matches the query if showAllSuggestions is false
       } else if (query && !this.state.showAllSuggestions) {
         for (const [key, value] of source) {
           if (this.matches(this.normalise(value.name), query)) {
@@ -254,7 +266,7 @@ const factory = (Chip, Input) => {
           }
         }
 
-     // When multiple is false, suggest all values when showAllSuggestions is true
+        // When multiple is false, suggest all values when showAllSuggestions is true
       } else {
         suggest = source;
       }
@@ -310,7 +322,9 @@ const factory = (Chip, Input) => {
       const values = this.values(this.props.value);
       const source = this.source();
       const newValue = Number(target === void 0 ? event.target.id : target);
-
+      if(!this.props.multiple){
+        return this.handleChange(newValue);
+      }
       if (this.isValueAnObject()) {
         const newItem = Array.from(source).reduce((obj, [k, value]) => {
           if (k === newValue) {
@@ -325,7 +339,7 @@ const factory = (Chip, Input) => {
 
         return this.handleChange(Object.assign(this.mapToObject(values), newItem), event);
       }
-      this.handleChange([newValue, ...values.keys()], event);
+      return this.handleChange([newValue, ...values.keys()], event);
     };
 
     unselect(key, event) {
@@ -358,15 +372,15 @@ const factory = (Chip, Input) => {
         const selectedItems = [...this.values()].map(([key, value]) =>
           this.props.selectedTemplate ?
             this.props.selectedTemplate(value, this.unselect.bind(this, key)) : (
-          <Chip
-            key={key}
-            className={this.props.theme.value}
-            deletable
-            onDeleteClick={this.unselect.bind(this, key)}
-          >
-            {value.name}
-          </Chip>
-         ));
+            <Chip
+              key={key}
+              className={this.props.theme.value}
+              deletable
+              onDeleteClick={this.unselect.bind(this, key)}
+            >
+              {value.name}
+            </Chip>
+          ));
 
         return <ul className={this.props.theme.values}>{selectedItems}</ul>;
       }
@@ -408,17 +422,20 @@ const factory = (Chip, Input) => {
 
     getInputValue = () => {
       if(this.state.selected && !this.props.multiple){
-        return this.state.source.get(this.state.query).name;
+        if(this.state.query) {
+          return this.state.source.get(this.state.query).name;
+        }
+        return '';
       }
       return this.state.query;
-    }
+    };
 
     render() {
       const {
-      allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, // eslint-disable-line no-unused-vars
-      selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange,   // eslint-disable-line no-unused-vars
-      theme, ...other
-    } = this.props;
+        allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, // eslint-disable-line no-unused-vars
+        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange,   // eslint-disable-line no-unused-vars
+        theme, ...other
+      } = this.props;
       const className = classnames(theme.autocomplete, {
         [theme.focus]: this.state.focus,
       }, this.props.className);
