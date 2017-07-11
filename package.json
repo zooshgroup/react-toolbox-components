@@ -2,7 +2,7 @@
   "name": "@zooshgroup/react-toolbox-components",
   "description": "Some additional components for the react-toolbox package",
   "homepage": "http://www.react-toolbox.com",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "./lib",
   "module": "./components",
   "author": {
