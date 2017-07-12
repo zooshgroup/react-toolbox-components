@@ -7,6 +7,7 @@ import {AppBar, Avatar, Chip} from 'react-toolbox';
 import ButtonToolbox from 'react-toolbox/lib/button';
 
 import Autocomplete from './components/autocomplete';
+import DatePickerAll from './components/date_picker_all';
 import Range from './components/range';
 import style from './style.css';
 
@@ -55,6 +56,7 @@ class Root extends Component {
         <Panel className={style.app}>
           <Range />
           <Autocomplete />
+          <DatePickerAll />
         </Panel>
       </Layout>
     );
