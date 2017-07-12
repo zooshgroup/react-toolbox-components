@@ -29,4 +29,12 @@
   --calendar-day-padding-leftright: 0;
   --calendar-title-height: calc(3.6 * var(--unit));
   --calendar-total-height: calc(var(--calendar-row-height) * 7 + var(--calendar-title-height) + var(--calendar-day-padding-topbottom) * 12);
+  --datepicker-border-size: calc(var(--input-field-height) / 7);
+  --datepicker-color-primary-contrast: var(--color-primary-contrast);
+  --datepicker-color-primary: var(--color-primary);
+  --datepicker-overflow-max-height: 45vh;
+  --datepicker-suggestion-active-background: var(--palette-grey-200);
+  --datepicker-suggestion-padding: var(--unit);
+  --datepicker-suggestions-background: var(--color-white);
+  --datepicker-value-margin: calc(var(--unit) * 0.25) calc(var(--unit) * 0.5) calc(var(--unit) * 0.25) 0;
 }

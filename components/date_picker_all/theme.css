@@ -7,6 +7,25 @@
   cursor: pointer;
 }
 
+.input {
+  position: relative;
+
+  &::after {
+    border-left: var(--datepicker-border-size) solid transparent;
+    border-right: var(--datepicker-border-size) solid transparent;
+    border-top: var(--datepicker-border-size) solid var(--input-text-bottom-border-color);
+    content: '';
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    right: var(--input-chevron-offset);
+    top: 50%;
+    transition: transform var(--animation-duration) var(--animation-curve-default);
+    width: 0;
+  }
+}
+
+
 .header {
   background-color: var(--datepicker-primary-color);
   color: var(--datepicker-primary-contrast-color);
