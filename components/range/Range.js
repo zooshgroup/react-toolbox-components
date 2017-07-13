@@ -23,10 +23,12 @@ const factory = (ProgressBar, Input) => {
       onDragStart: PropTypes.func,
       onDragStop: PropTypes.func,
       pinned: PropTypes.bool,
+      showValues: PropTypes.bool,
       snaps: PropTypes.bool,
       step: PropTypes.number,
       style: styleShape,
       theme: PropTypes.shape({
+        buffer: PropTypes.string,
         container: PropTypes.string,
         editable: PropTypes.string,
         innerknob: PropTypes.string,
@@ -37,6 +39,7 @@ const factory = (ProgressBar, Input) => {
         pressed: PropTypes.string,
         progress: PropTypes.string,
         ring: PropTypes.string,
+        showValues: PropTypes.string,
         slider: PropTypes.string,
         snap: PropTypes.string,
         snaps: PropTypes.string,
@@ -57,6 +60,7 @@ const factory = (ProgressBar, Input) => {
       onDragStart: () => {},
       onDragStop: () => {},
       pinned: false,
+      showValues: false,
       snaps: false,
       step: 0.01,
       value: {
@@ -357,6 +361,7 @@ const factory = (ProgressBar, Input) => {
         [theme.disabled]: this.props.disabled,
         [theme.pinned]: this.props.pinned,
         [theme.pressed]: this.state.pressed,
+        [theme.showValues]: this.props.showValues,
         [theme.ring]: this.props.value.first === this.props.value.second,
       }, this.props.className);
 
