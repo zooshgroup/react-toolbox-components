@@ -26,6 +26,7 @@ const factory = (Chip, Input) => {
         PropTypes.string,
         PropTypes.node,
       ]),
+      idProperty: PropTypes.string,
       itemTemplate: PropTypes.func,
       keepFocusOnChange: PropTypes.bool,
       label: PropTypes.oneOfType([
@@ -33,6 +34,7 @@ const factory = (Chip, Input) => {
         PropTypes.node,
       ]),
       multiple: PropTypes.bool,
+      nameProperty: PropTypes.string,
       onBlur: PropTypes.func,
       onChange: PropTypes.func,
       onFocus: PropTypes.func,
@@ -62,8 +64,10 @@ const factory = (Chip, Input) => {
       allowCreate: false,
       className: '',
       direction: 'auto',
+      idProperty: 'id',
       keepFocusOnChange: false,
       multiple: true,
+      nameProperty: 'name',
       selectedPosition: 'above',
       showSelectedWhenNotInSource: false,
       showSuggestionsWhenValueIsSet: false,
@@ -95,7 +99,7 @@ const factory = (Chip, Input) => {
       super(props);
       if(props.source){
         const map = new Map();
-        props.source.map(item => map.set(item.id, item));
+        props.source.map(item => map.set(item[this.props.idProperty], item));
         this.state.source = map;
       }
     }
@@ -103,7 +107,7 @@ const factory = (Chip, Input) => {
     componentWillReceiveProps(nextProps) {
       if(nextProps.source){
         const map = new Map();
-        nextProps.source.map(item => map.set(item.id, item));
+        nextProps.source.map(item => map.set(item[this.props.idProperty], item));
         this.setState({ source: map });
       }
       if (!this.props.multiple) {
@@ -189,7 +193,7 @@ const factory = (Chip, Input) => {
         let index = suggestionsKeys.indexOf(this.state.active) + (event.which === 40 ? +1 : -1);
         if (index < 0) index = suggestionsKeys.length - 1;
         if (index >= suggestionsKeys.length) index = 0;
-        this.setState({ active: Number(suggestionsKeys[index]) });
+        this.setState({ active: suggestionsKeys[index] });
       }
     };
 
@@ -211,7 +215,12 @@ const factory = (Chip, Input) => {
       let query_value = '';
       if (!this.props.multiple && key) {
         const source_value = this.source().get(`${key}`);
-        query_value = source_value || key;
+        if(source_value){
+          query_value = source_value[this.props.idProperty];
+        }
+        else {
+          query_value = key;
+        }
       }
       return query_value;
     }
@@ -253,7 +262,7 @@ const factory = (Chip, Input) => {
       // Suggest any non-set value which matches the query
       if (this.props.multiple) {
         for (const [key, value] of source) {
-          if (!values.has(key) && this.matches(this.normalise(value.name), query)) {
+          if (!values.has(key) && this.matches(this.normalise(value[this.props.nameProperty]), query)) {
             suggest.set(key, value);
           }
         }
@@ -261,7 +270,7 @@ const factory = (Chip, Input) => {
         // When multiple is false, suggest any value which matches the query if showAllSuggestions is false
       } else if (query && !this.state.showAllSuggestions) {
         for (const [key, value] of source) {
-          if (this.matches(this.normalise(value.name), query)) {
+          if (this.matches(this.normalise(value[this.props.nameProperty]), query)) {
             suggest.set(key, value);
           }
         }
@@ -321,7 +330,7 @@ const factory = (Chip, Input) => {
       events.pauseEvent(event);
       const values = this.values(this.props.value);
       const source = this.source();
-      const newValue = Number(target === void 0 ? event.target.id : target);
+      const newValue = target === void 0 ? event.target[this.props.idProperty] : target;
       if(!this.props.multiple){
         return this.handleChange(newValue);
       }
@@ -378,7 +387,7 @@ const factory = (Chip, Input) => {
               deletable
               onDeleteClick={this.unselect.bind(this, key)}
             >
-              {value.name}
+              {value[this.props.nameProperty]}
             </Chip>
           ));
 
@@ -390,7 +399,7 @@ const factory = (Chip, Input) => {
       if(this.props.itemTemplate){
         return this.props.itemTemplate(value);
       }
-      return value.name;
+      return value[this.props.nameProperty];
     }
 
     renderSuggestions() {
@@ -423,7 +432,7 @@ const factory = (Chip, Input) => {
     getInputValue = () => {
       if(this.state.selected && !this.props.multiple){
         if(this.state.query) {
-          return this.state.source.get(this.state.query).name;
+          return this.state.source.get(this.state.query)[this.props.nameProperty];
         }
         return '';
       }
@@ -432,7 +441,7 @@ const factory = (Chip, Input) => {
 
     render() {
       const {
-        allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, // eslint-disable-line no-unused-vars
+        allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, idProperty, nameProperty, // eslint-disable-line no-unused-vars
         selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange,   // eslint-disable-line no-unused-vars
         theme, ...other
       } = this.props;

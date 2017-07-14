@@ -3,53 +3,55 @@ import Autocomplete from '../../components/autocomplete';
 import {Avatar, Chip} from "react-toolbox";
 
 const source = [
-  {id:1, name:'England', flag:'GB'},
-  {id:2, name:'Finland', flag:'FI'},
-  {id:3, name:'Hungary', flag:'HU'},
-  {id:4, name:'Germany', flag:'DE'},
-  {id:5, name:'Switzerland', flag:'CH'}
+  {id:1, name:'England', code:'GB'},
+  {id:2, name:'Finland', code:'FI'},
+  {id:3, name:'Hungary', code:'HU'},
+  {id:4, name:'Germany', code:'DE'},
+  {id:5, name:'Switzerland', code:'CH'}
 ];
 
 const source2 = [
-  {id:1, name:'England', flag:'GB'},
-  {id:2, name:'Finland', flag:'FI'},
-  {id:3, name:'Hungary', flag:'HU'},
-  {id:4, name:'Germany', flag:'DE'},
-  {id:5, name:'Switzerland', flag:'CH'}
+  {name:'England', code:'GB'},
+  {name:'Finland', code:'FI'},
+  {name:'Hungary', code:'HU'},
+  {name:'Germany', code:'DE'},
+  {name:'Switzerland', code:'CH'}
 ];
 
 class AutocompleteTest extends React.Component {
-    state = { values: [], singleValue: 1 };
+  state = { values: [], singleValue: 'HU' };
 
-    handleChange = (value) => {
-      this.setState({values: value});
-    };
+  handleChange = (value) => {
+    console.log(value);
+    this.setState({values: value});
+  };
 
-    handleSingleChange = (value) => {
-      this.setState({singleValue: value});
-    };
+  handleSingleChange = (value) => {
+    console.log(value);
+    this.setState({singleValue: value});
+  };
 
-    selectedTemplate(item, callback){
-      return (
-        <Chip
-          key={item.id}
-          deletable
-          onDeleteClick={callback}
-        >
-          <Avatar cover><img src={`http://www.geognos.com/api/en/countries/flag/${item.flag}.png`}/></Avatar>
-          <span>{item.name}</span>
-        </Chip>
-      )
-    }
+  selectedTemplate(item, callback){
+    return (
+      <Chip
+        key={item.id}
+        deletable
+        onDeleteClick={callback}
+      >
+        <Avatar cover><img src={`http://www.geognos.com/api/en/countries/flag/${item.code}.png`}/></Avatar>
+        <span>{item.name}</span>
+      </Chip>
+    )
+  }
 
-    itemTemplate(item){
-      return (
-        <div>
-          <img  src={`http://www.geognos.com/api/en/countries/flag/${item.flag}.png`} height="12"/>
-          <span style={{margin:'10px'}}>{item.name}</span>
-        </div>
-      )
-    }
+  itemTemplate(item){
+    return (
+      <div>
+        <img  src={`http://www.geognos.com/api/en/countries/flag/${item.code}.png`} height="12"/>
+        <span style={{margin:'10px'}}>{item.name}</span>
+      </div>
+    )
+  }
 
   render() {
     return (
@@ -74,6 +76,7 @@ class AutocompleteTest extends React.Component {
           onChange={this.handleSingleChange}
           label="Select a country"
           source={source2}
+          idProperty="code"
           value={this.state.singleValue}
           multiple={false}
         />
