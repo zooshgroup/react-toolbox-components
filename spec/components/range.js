@@ -30,6 +30,7 @@ class RangeTest extends React.Component {
           max={200}
           mapValueOnPin={x => { const inch = x / 2.54; return `${Math.floor(inch / 12)}'${Math.round(inch % 12)}"`; }}
           value={this.state.range4}
+          showValues
           onChange={this.handleChange.bind(this, 'range4')}
         />
       </section>
