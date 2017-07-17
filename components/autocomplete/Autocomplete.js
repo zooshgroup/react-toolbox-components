@@ -35,6 +35,7 @@ const factory = (Chip, Input) => {
       ]),
       multiple: PropTypes.bool,
       nameProperty: PropTypes.string,
+      oneLiner: PropTypes.bool,
       onBlur: PropTypes.func,
       onChange: PropTypes.func,
       onFocus: PropTypes.func,
@@ -68,6 +69,7 @@ const factory = (Chip, Input) => {
       keepFocusOnChange: false,
       multiple: true,
       nameProperty: 'name',
+      oneLiner: false,
       selectedPosition: 'above',
       showSelectedWhenNotInSource: false,
       showSuggestionsWhenValueIsSet: false,
@@ -391,7 +393,7 @@ const factory = (Chip, Input) => {
             </Chip>
           ));
 
-        return <ul className={this.props.theme.values}>{selectedItems}</ul>;
+        return <div className={this.props.theme.values}>{selectedItems}</div>;
       }
     }
 
@@ -447,6 +449,7 @@ const factory = (Chip, Input) => {
       } = this.props;
       const className = classnames(theme.autocomplete, {
         [theme.focus]: this.state.focus,
+        [theme.oneLiner]: this.props.oneLiner,
       }, this.props.className);
 
       return (

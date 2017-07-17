@@ -6,6 +6,8 @@
 .autocomplete {
   padding: var(--unit) 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   @apply --reset;
 
@@ -88,5 +90,15 @@
     top: 50%;
     transition: transform var(--animation-duration) var(--animation-curve-default);
     width: 0;
+  }
+
+}
+
+.oneLiner {
+  flex-direction: row;
+  align-items: center;
+  &>.input {
+    width: 100%;
+    min-width: 66%;
   }
 }

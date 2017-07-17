@@ -19,16 +19,11 @@ const source2 = [
 ];
 
 class AutocompleteTest extends React.Component {
-  state = { values: [], singleValue: 'HU' };
+  state = { values: [], oneLineValues: [], singleValue: 'HU' };
 
-  handleChange = (value) => {
+  handleChange = (value, field) => {
     console.log(value);
-    this.setState({values: value});
-  };
-
-  handleSingleChange = (value) => {
-    console.log(value);
-    this.setState({singleValue: value});
+    this.setState({[field]: value});
   };
 
   selectedTemplate(item, callback){
@@ -62,9 +57,21 @@ class AutocompleteTest extends React.Component {
           direction="down"
           selectedPosition="above"
           label="Choose countries"
-          onChange={this.handleChange}
+          onChange={(value) => this.handleChange(value, 'values')}
           source={source}
           value={this.state.values}
+          selectedTemplate={this.selectedTemplate}
+          itemTemplate={this.itemTemplate}
+        />
+        <p>Multi select in one line</p>
+        <Autocomplete
+          direction="down"
+          oneLiner
+          selectedPosition="above"
+          label="Choose countries"
+          onChange={(value) => this.handleChange(value, 'oneLineValues')}
+          source={source}
+          value={this.state.oneLineValues}
           selectedTemplate={this.selectedTemplate}
           itemTemplate={this.itemTemplate}
         />
@@ -73,7 +80,7 @@ class AutocompleteTest extends React.Component {
           suggestionMatch="anywhere"
           showSuggestionsWhenValueIsSet
           direction="down"
-          onChange={this.handleSingleChange}
+          onChange={(value) => this.handleChange(value, 'singleValue')}
           label="Select a country"
           source={source2}
           idProperty="code"
