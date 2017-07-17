@@ -66,7 +66,7 @@ class AutocompleteTest extends React.Component {
         <p>Multi select in one line</p>
         <Autocomplete
           direction="down"
-          oneLiner
+          singleLine
           selectedPosition="above"
           label="Choose countries"
           onChange={(value) => this.handleChange(value, 'oneLineValues')}
