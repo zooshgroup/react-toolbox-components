@@ -434,7 +434,14 @@ const factory = (Chip, Input) => {
     getInputValue = () => {
       if(this.state.selected && !this.props.multiple){
         if(this.state.query) {
-          return this.state.source.get(this.state.query)[this.props.nameProperty];
+          const selectedItem = this.state.source.get(this.state.query);
+          if(selectedItem) {
+            return this.state.source.get(this.state.query)[this.props.nameProperty];
+          }
+          else {
+            console.error("ERROR: Unknown value '" + this.state.query + "' set to Autocomplete. Check source.");
+            return this.state.query;
+          }
         }
         return '';
       }
