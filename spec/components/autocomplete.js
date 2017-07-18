@@ -19,7 +19,7 @@ const source2 = [
 ];
 
 class AutocompleteTest extends React.Component {
-  state = { values: [], oneLineValues: [], singleValue: 'HU' };
+  state = { values: [], singleValue: 'HU' };
 
   handleChange = (value, field) => {
     console.log(value);
@@ -60,18 +60,6 @@ class AutocompleteTest extends React.Component {
           onChange={(value) => this.handleChange(value, 'values')}
           source={source}
           value={this.state.values}
-          selectedTemplate={this.selectedTemplate}
-          itemTemplate={this.itemTemplate}
-        />
-        <p>Multi select in one line</p>
-        <Autocomplete
-          direction="down"
-          singleLine
-          selectedPosition="above"
-          label="Choose countries"
-          onChange={(value) => this.handleChange(value, 'oneLineValues')}
-          source={source}
-          value={this.state.oneLineValues}
           selectedTemplate={this.selectedTemplate}
           itemTemplate={this.itemTemplate}
         />
