@@ -37,6 +37,7 @@ const factory = (Chip, Input) => {
       nameProperty: PropTypes.string,
       onBlur: PropTypes.func,
       onChange: PropTypes.func,
+      onCreate: PropTypes.func,
       onFocus: PropTypes.func,
       onQueryChange: PropTypes.func,
       query: PropTypes.string,
@@ -231,7 +232,14 @@ const factory = (Chip, Input) => {
         target = this.props.allowCreate
           ? this.state.query
           : [...this.suggestions().keys()][0];
+        if (this.props.allowCreate && this.props.onCreate) {
+          this.props.onCreate(target);
+          this.setState({ focus: false }, () => {
+            ReactDOM.findDOMNode(this).querySelector('input').blur();
+          });
+        }
         this.setState({ active: target });
+        return;
       }
       this.select(event, target);
     }
@@ -448,8 +456,8 @@ const factory = (Chip, Input) => {
 
     render() {
       const {
-        allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, idProperty, nameProperty, // eslint-disable-line no-unused-vars
-        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange,   // eslint-disable-line no-unused-vars
+        allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, idProperty, nameProperty, singleLine, // eslint-disable-line no-unused-vars
+        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange, onCreate,   // eslint-disable-line no-unused-vars
         theme, ...other
       } = this.props;
       const className = classnames(theme.autocomplete, {
