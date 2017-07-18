@@ -22,7 +22,6 @@ class AutocompleteTest extends React.Component {
   state = { values: [], oneLineValues: [], singleValue: 'HU' };
 
   handleChange = (value, field) => {
-    console.log(value);
     this.setState({[field]: value});
   };
 
