@@ -370,13 +370,13 @@ const factory = (Chip, Input) => {
         }
         else {
           values.delete(key);
-        }
 
-        if (this.isValueAnObject()) {
-          return this.handleChange(this.mapToObject(values), event);
-        }
+          if (this.isValueAnObject()) {
+            return this.handleChange(this.mapToObject(values), event);
+          }
 
-        this.handleChange([...values.keys()], event);
+          this.handleChange([...values.keys()], event);
+        }
       }
     }
 
