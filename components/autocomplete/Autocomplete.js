@@ -41,6 +41,7 @@ const factory = (Chip, Input) => {
       onCreate: PropTypes.func,
       onFocus: PropTypes.func,
       onQueryChange: PropTypes.func,
+      onUnselect: PropTypes.func,
       query: PropTypes.string,
       selectedPosition: PropTypes.oneOf(['above', 'below', 'none']),
       selectedTemplate: PropTypes.func,
@@ -239,6 +240,7 @@ const factory = (Chip, Input) => {
           this.setState({ focus: false }, () => {
             ReactDOM.findDOMNode(this).querySelector('input').blur();
           });
+          this.setState({query: ''});
         }
         this.setState({ active: target });
         return;
@@ -365,7 +367,12 @@ const factory = (Chip, Input) => {
       if (!this.props.disabled) {
         const values = this.values(this.props.value);
 
-        values.delete(key);
+        if (this.props.onUnselect) {
+          this.props.onUnselect(key);
+        }
+        else {
+          values.delete(key);
+        }
 
         if (this.isValueAnObject()) {
           return this.handleChange(this.mapToObject(values), event);
@@ -459,7 +466,7 @@ const factory = (Chip, Input) => {
     render() {
       const {
         allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, idProperty, nameProperty, singleLine, // eslint-disable-line no-unused-vars
-        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange, onCreate,   // eslint-disable-line no-unused-vars
+        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange, onCreate, onUnselect,   // eslint-disable-line no-unused-vars
         theme, ...other
       } = this.props;
       const className = classnames(theme.autocomplete, {
