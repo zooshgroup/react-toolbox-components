@@ -6,8 +6,6 @@
 .autocomplete {
   padding: var(--unit) 0;
   position: relative;
-  display: flex;
-  flex-direction: column;
 
   @apply --reset;
 
@@ -39,7 +37,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
-  /*position: absolute;*/
+  position: absolute;
   transition-duration: var(--animation-duration);
   transition-property: max-height, box-shadow;
   transition-timing-function: var(--animation-curve-default);
@@ -92,17 +90,4 @@
     width: 0;
   }
 
-}
-
-.singleLine {
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-  &>.input {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-width: 66%;
-  }
 }
