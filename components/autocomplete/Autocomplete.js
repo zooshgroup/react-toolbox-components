@@ -401,7 +401,7 @@ const factory = (Chip, Input) => {
     }
 
     renderSelected() {
-      if (this.props.multiple) {
+      if (this.props.multiple || this.props.selectedTemplate) {
         const selectedItems = [...this.values()].map(([key, value]) =>
           this.props.selectedTemplate ?
             this.props.selectedTemplate(value, this.unselect.bind(this, key)) : (
@@ -457,7 +457,7 @@ const factory = (Chip, Input) => {
 
     getInputValue = () => {
       if(this.state.selected && !this.props.multiple){
-        if(this.state.query) {
+        if(this.state.query && !this.props.singleLine && !this.props.selectedTemplate) {
           const selectedItem = this.state.source.get(this.state.query);
           if(selectedItem) {
             return this.state.source.get(this.state.query)[this.props.nameProperty];

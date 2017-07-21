@@ -19,7 +19,7 @@ const source2 = [
 ];
 
 class AutocompleteTest extends React.Component {
-  state = { values: [], singleValue: 'HU' };
+  state = { values: [], singleValue: 'HU', singleValue2: '', };
 
   handleChange = (value, field) => {
     this.setState({[field]: value});
@@ -84,6 +84,19 @@ class AutocompleteTest extends React.Component {
           idProperty="code"
           value={this.state.singleValue}
           multiple={false}
+        />
+        <p>Single select with selectedTemplate and singleLine</p>
+        <Autocomplete
+          suggestionMatch="anywhere"
+          showSuggestionsWhenValueIsSet
+          direction="down"
+          onChange={(value) => this.handleChange(value, 'singleValue2')}
+          source={source2}
+          idProperty="code"
+          value={this.state.singleValue2}
+          selectedTemplate={this.selectedTemplate}
+          multiple={false}
+          singleLine={true}
         />
       </section>
     );
