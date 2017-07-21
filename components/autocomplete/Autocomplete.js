@@ -35,6 +35,7 @@ const factory = (Chip, Input) => {
       ]),
       multiple: PropTypes.bool,
       nameProperty: PropTypes.string,
+      singleLine: PropTypes.bool,
       onBlur: PropTypes.func,
       onChange: PropTypes.func,
       onCreate: PropTypes.func,
@@ -70,6 +71,7 @@ const factory = (Chip, Input) => {
       keepFocusOnChange: false,
       multiple: true,
       nameProperty: 'name',
+      singleLine: false,
       selectedPosition: 'above',
       showSelectedWhenNotInSource: false,
       showSuggestionsWhenValueIsSet: false,
@@ -143,6 +145,13 @@ const factory = (Chip, Input) => {
       this.updateQuery(query, this.props.query);
       if(!this.props.multiple) {
         this.setState({selected: true});
+      }
+    };
+
+    handleClick = (event) => {
+      if (this.props.singleLine && !this.state.focus) {
+        const inputElement = ReactDOM.findDOMNode(this.inputNode);
+        inputElement.firstChild.focus();
       }
     };
 
@@ -405,7 +414,9 @@ const factory = (Chip, Input) => {
               {value[this.props.nameProperty]}
             </Chip>
           ));
-
+        if (this.props.singleLine) {
+          return selectedItems;
+        }
         return <div className={this.props.theme.values}>{selectedItems}</div>;
       }
     }
@@ -469,27 +480,32 @@ const factory = (Chip, Input) => {
       } = this.props;
       const className = classnames(theme.autocomplete, {
         [theme.focus]: this.state.focus,
+        [theme.singleLine]: this.props.singleLine,
       }, this.props.className);
 
       return (
-        <div data-react-toolbox="autocomplete" className={className}>
+        <div data-react-toolbox="autocomplete" className={className} onClick={this.handleClick}>
           {this.props.selectedPosition === 'above' ? this.renderSelected() : null}
-          <Input
-            {...other}
-            ref={(node) => { this.inputNode = node; }}
-            autoComplete="off"
-            className={theme.input}
-            error={error}
-            label={label}
-            onBlur={this.handleQueryBlur}
-            onChange={this.handleQueryChange}
-            onFocus={this.handleQueryFocus}
-            onKeyDown={this.handleQueryKeyDown}
-            onKeyUp={this.handleQueryKeyUp}
-            theme={theme}
-            themeNamespace="input"
-            value={this.getInputValue()}
-          />
+          <div className={classnames(theme.inputContainer)}>
+            <Input
+              {...other}
+              ref={(node) => { this.inputNode = node; }}
+              autoComplete="off"
+              className={theme.input}
+              error={error}
+              label={label}
+              onBlur={this.handleQueryBlur}
+              onChange={this.handleQueryChange}
+              onFocus={this.handleQueryFocus}
+              onKeyDown={this.handleQueryKeyDown}
+              onKeyUp={this.handleQueryKeyUp}
+              theme={theme}
+              themeNamespace="input"
+              value={this.getInputValue()}
+            />
+            <span className={classnames(theme.inputSizer)}>{this.getInputValue()}</span>
+          </div>
+          <span className={classnames(theme.singleLineBar)} />
           {this.renderSuggestions()}
           {this.props.selectedPosition === 'below' ? this.renderSelected() : null}
         </div>

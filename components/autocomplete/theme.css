@@ -91,3 +91,96 @@
   }
 
 }
+
+.singleLine {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  cursor: text;
+  padding: 10px 18px 3px 0;
+  margin-bottom: 10px;
+
+  &::after {
+    border-left: 5.48571px solid transparent;
+    border-right: 5.48571px solid transparent;
+    border-top: 5.48571px solid rgba(0, 0, 0, 0.12);
+    content: '';
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+  }
+  & > * {
+    vertical-align: middle;
+  }
+
+  & .input {
+    display: inline-block;
+    padding: 1px 0 1px 3px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  & .input::after {
+    border: 0;
+  }
+  & .input > input {
+    display: inline-block;
+    width: 100%;
+    border-bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    min-width: 10px;
+  }
+  & .input > span {
+    display: none;
+  }
+
+  & .suggestions:not(.up) {
+    margin-top: 4px;
+  }
+
+  & .inputContainer {
+    display: inline-block;
+    position: relative;
+    height: 32px;
+    margin-left: 5px;
+  }
+  & .inputSizer {
+    visibility: hidden;
+    padding: 8px 2px;
+    min-height: 35px;
+    font-size: 16px;
+    font-family: sans-serif;
+  }
+
+  & .singleLineBar {
+    position: relative;
+    width: calc(100% + 18px);
+    display: block;
+  }
+  &.focus .singleLineBar::before, &.focus .singleLineBar::after {
+    width: 50%;
+  }
+  & .singleLineBar::before, & .singleLineBar::after {
+    background-color: var(--input-text-highlight-color);
+    bottom: -4px;
+    content: '';
+    height: 2px;
+    position: absolute;
+    transition-duration: 0.2s;
+    transition-property: width, background-color;
+    transition-timing-function: var(--animation-curve-default);
+    width: 0;
+  }
+  & .singleLineBar::before {
+    left: 50%;
+  }
+  & .singleLineBar::after {
+    right: 50%;
+  }
+}

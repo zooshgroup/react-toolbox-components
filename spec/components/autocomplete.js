@@ -62,6 +62,17 @@ class AutocompleteTest extends React.Component {
           selectedTemplate={this.selectedTemplate}
           itemTemplate={this.itemTemplate}
         />
+        <p>Multi select with singleLine</p>
+        <Autocomplete
+          direction="down"
+          selectedPosition="above"
+          onChange={(value) => this.handleChange(value, 'values')}
+          source={source}
+          value={this.state.values}
+          selectedTemplate={this.selectedTemplate}
+          itemTemplate={this.itemTemplate}
+          singleLine={true}
+        />
         <p>Single select</p>
         <Autocomplete
           suggestionMatch="anywhere"
