@@ -494,7 +494,7 @@ const factory = (Chip, Input) => {
               autoComplete="off"
               className={theme.input}
               error={error}
-              label={singleLine && (this.getInputValue() || !isEmpty(this.props.value)) ? '' : label}
+              label={this.props.singleLine && (this.getInputValue() || !isEmpty(this.props.value)) ? '' : label}
               onBlur={this.handleQueryBlur}
               onChange={this.handleQueryChange}
               onFocus={this.handleQueryFocus}
@@ -504,7 +504,7 @@ const factory = (Chip, Input) => {
               themeNamespace="input"
               value={this.getInputValue()}
             />
-            <span className={classnames(theme.inputSizer)}>{this.getInputValue()}</span>
+            {this.props.singleLine && <span className={classnames(theme.inputSizer)}>{this.getInputValue()}</span>}
           </div>
           <span className={classnames(theme.singleLineBar)} />
           {this.renderSuggestions()}
