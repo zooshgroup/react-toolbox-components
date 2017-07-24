@@ -183,4 +183,11 @@
   & .singleLineBar::after {
     right: 50%;
   }
+  & .input > label {
+    top: 6px;
+    white-space: nowrap;
+  }
+  &&&.focus:not([disabled]):not([readonly]) label {
+    display: none;
+  }
 }

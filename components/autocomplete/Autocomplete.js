@@ -8,6 +8,7 @@ import { AUTOCOMPLETE } from 'react-toolbox/src/components/identifiers';
 import InjectChip from 'react-toolbox/lib/chip/Chip';
 import InjectInput from 'react-toolbox/lib/input/Input';
 import events from '../utils/events.js';
+import { isEmpty } from 'ramda';
 
 const POSITION = {
   AUTO: 'auto',
@@ -493,7 +494,7 @@ const factory = (Chip, Input) => {
               autoComplete="off"
               className={theme.input}
               error={error}
-              label={label}
+              label={singleLine && (this.getInputValue() || !isEmpty(this.props.value)) ? '' : label}
               onBlur={this.handleQueryBlur}
               onChange={this.handleQueryChange}
               onFocus={this.handleQueryFocus}
