@@ -19,7 +19,7 @@ const source2 = [
 ];
 
 class AutocompleteTest extends React.Component {
-  state = { values: [], lineValues: [], singleValue: 'HU', singleValue2: '', };
+  state = { values: [], singleValue: 'HU', singleValue2: '', };
 
   handleChange = (value, field) => {
     this.setState({[field]: value});
@@ -73,7 +73,7 @@ class AutocompleteTest extends React.Component {
           itemTemplate={this.itemTemplate}
           singleLine
           label="Choose countries"
-
+          logger
         />
         <p>Single select</p>
         <Autocomplete

@@ -8,7 +8,7 @@ import { AUTOCOMPLETE } from 'react-toolbox/src/components/identifiers';
 import InjectChip from 'react-toolbox/lib/chip/Chip';
 import InjectInput from 'react-toolbox/lib/input/Input';
 import events from '../utils/events.js';
-import { isEmpty } from 'ramda';
+import { isEmpty, isNil } from 'ramda';
 
 const POSITION = {
   AUTO: 'auto',
@@ -483,7 +483,6 @@ const factory = (Chip, Input) => {
         [theme.focus]: this.state.focus,
         [theme.singleLine]: this.props.singleLine,
       }, this.props.className);
-
       return (
         <div data-react-toolbox="autocomplete" className={className} onClick={this.handleClick}>
           {this.props.selectedPosition === 'above' ? this.renderSelected() : null}
@@ -494,7 +493,7 @@ const factory = (Chip, Input) => {
               autoComplete="off"
               className={theme.input}
               error={error}
-              label={this.props.singleLine && (this.getInputValue() || !isEmpty(this.props.value)) ? '' : label}
+              label={this.props.singleLine && (this.getInputValue() || (!isEmpty(this.props.value) && !isNil(this.props.value))) ? '' : label}
               onBlur={this.handleQueryBlur}
               onChange={this.handleQueryChange}
               onFocus={this.handleQueryFocus}
