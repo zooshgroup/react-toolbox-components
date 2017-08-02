@@ -65,7 +65,7 @@ const TRANSITIONS = {
 
 function transitionEventNamesFor(element) {
   return keys(TRANSITIONS).reduce((result, transition) => (
-    !result && (element && element.style[transition] !== undefined)
+    !result && (element && element.style && element.style[transition] !== undefined)
       ? TRANSITIONS[transition]
       : result
   ), null);

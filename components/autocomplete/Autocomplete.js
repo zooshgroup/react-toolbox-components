@@ -476,7 +476,7 @@ const factory = (Chip, Input) => {
     render() {
       const {
         allowCreate, error, label, source, suggestionMatch, query, selectedTemplate, itemTemplate, idProperty, nameProperty, singleLine, // eslint-disable-line no-unused-vars
-        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange, onCreate, onUnselect,   // eslint-disable-line no-unused-vars
+        selectedPosition, keepFocusOnChange, showSuggestionsWhenValueIsSet, showSelectedWhenNotInSource, onQueryChange, onCreate, onUnselect, logger,  // eslint-disable-line no-unused-vars
         theme, ...other
       } = this.props;
       const className = classnames(theme.autocomplete, {

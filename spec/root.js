@@ -9,6 +9,7 @@ import ButtonToolbox from 'react-toolbox/lib/button';
 import Autocomplete from './components/autocomplete';
 import DatePickerAll from './components/date_picker_all';
 import Range from './components/range';
+import Tooltip from './components/tooltip'
 import style from './style.css';
 
 const source = [
@@ -54,6 +55,7 @@ class Root extends Component {
         </NavDrawer>
 
         <Panel className={style.app}>
+          <Tooltip />
           <Range />
           <Autocomplete />
           <DatePickerAll />
