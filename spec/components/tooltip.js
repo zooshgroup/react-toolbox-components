@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from '../../components/tooltip';
+import { Tooltip } from '../../components';
 import { Button, Card } from 'react-toolbox';
 
 class Asd extends React.Component {
