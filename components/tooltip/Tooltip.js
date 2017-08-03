@@ -51,13 +51,14 @@ const tooltipFactory = (options = {}) => {
           tooltipActive: PropTypes.string,
           tooltipWrapper: PropTypes.string,
         }),
-        tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+        tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.any]),
         tooltipDelay: PropTypes.number,
         tooltipHideOnClick: PropTypes.bool,
         tooltipPosition: PropTypes.oneOf(
           Object.keys(POSITION).map(key => POSITION[key]),
         ),
         tooltipShowOnClick: PropTypes.bool,
+        tooltipTemplate: PropTypes.func,
       };
 
       static defaultProps = {
@@ -206,6 +207,7 @@ const tooltipFactory = (options = {}) => {
           tooltipHideOnClick, // eslint-disable-line no-unused-vars
           tooltipPosition, // eslint-disable-line no-unused-vars
           tooltipShowOnClick, // eslint-disable-line no-unused-vars
+          tooltipTemplate,
           ...other
         } = this.props;
 
@@ -225,27 +227,22 @@ const tooltipFactory = (options = {}) => {
         const shouldPass = typeof ComposedComponent !== 'string' &&
           defaultPassthrough;
         const finalProps = shouldPass ? { ...childProps, theme } : childProps;
-
-        const defaultNode = () => (
-          <span
-            ref={(node) => {
-              this.tooltipNode = node;
-            }}
-            className={_className}
-            data-react-toolbox="tooltip"
-            style={{ top, left }}
-          >
-            <span className={theme.tooltipInner}>{tooltip}</span>
-          </span>
-        );
-        const Tooltip = tooltip;
+        // console.log(this.props.tooltipTemplate);
+        const TooltipComponent = () => {
+          if (typeof tooltip === 'string') {
+            return <span className={theme.tooltipInner}>{tooltip}</span>;
+          }
+          if (!this.props.tooltipTemplate) {
+            return <span className={theme.tooltipInner}>{tooltip.toString()}</span>;
+          }
+          return <this.props.tooltipTemplate tooltip={tooltip} />;
+        };
         return React.createElement(
           ComposedComponent,
           finalProps,
           children,
           visible &&
             <Portal>
-              {typeof Tooltip === 'string' ? defaultNode() :
               <span
                 ref={(node) => {
                   this.tooltipNode = node;
@@ -254,9 +251,9 @@ const tooltipFactory = (options = {}) => {
                 data-react-toolbox="tooltip"
                 style={{ top, left }}
               >
-                <Tooltip />
+                {TooltipComponent()}
               </span>
-              }
+
             </Portal>,
         );
       }

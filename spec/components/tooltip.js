@@ -5,16 +5,9 @@ import { Button, Card } from 'react-toolbox';
 class Asd extends React.Component {
   render() {
     return (
-      <div
-        style={{
-          backgroundColor: 'white',
-          border: '1px solid black',
-          fontSize: '2em',
-          lineHeight: '1.5',
-          padding: '1em'
-        }}
-      >
-        STYLED TOOLTIP
+      <div>
+        <h1>Hello</h1>
+        <h2>{this.props.tooltip.name}</h2>
       </div>
     )
   }
@@ -33,9 +26,9 @@ class TooltipTest extends React.Component {
 
   render() {
     return (
-      <section>
-        <TooltipDiv tooltip="NORMAL TEXT TOOLTIP">NORMAL TEXT</TooltipDiv>
-        <TooltipDiv tooltip={Asd} >STYLED</TooltipDiv>
+      <section style={{display: 'flex', flexDirection: 'row'}}>
+        <TooltipDiv style={{ padding: '2em', width: '10em', marginRight: '5em' }} tooltip="NORMAL TEXT TOOLTIP">NORMAL</TooltipDiv>
+        <TooltipDiv style={{ padding: '2em', width: '10em' }} tooltip={{name: 'world'}} tooltipTemplate={Asd} >TEMPLATED</TooltipDiv>
       </section>
     );
   }
