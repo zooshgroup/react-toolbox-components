@@ -8,6 +8,7 @@ import ButtonToolbox from 'react-toolbox/lib/button';
 
 import Autocomplete from './components/autocomplete';
 import DatePickerAll from './components/date_picker_all';
+import Dropdown from './components/dropdown';
 import Range from './components/range';
 import Tooltip from './components/tooltip'
 import style from './style.css';
@@ -59,6 +60,7 @@ class Root extends Component {
           <Range />
           <Autocomplete />
           <DatePickerAll />
+          <Dropdown />
         </Panel>
       </Layout>
     );
