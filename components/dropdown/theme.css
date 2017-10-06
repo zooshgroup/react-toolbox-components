@@ -15,6 +15,10 @@
     }
   }
 
+  &:focus {
+    outline: none;
+  }
+
   &.active {
     & > .label,
     & > .value {

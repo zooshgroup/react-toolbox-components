@@ -130,6 +130,7 @@ const factory = (Input) => {
       const client = event.target.getBoundingClientRect();
       const screenHeight = window.innerHeight || document.documentElement.offsetHeight;
       const up = this.props.auto ? client.top > ((screenHeight / 2) + client.height) : false;
+      if (this.node) this.node.focus();
       this.setState({ active: true, up });
     };
 
@@ -207,6 +208,7 @@ const factory = (Input) => {
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           tabIndex="-1"
+          ref={(node) => this.node = node}
         >
           <Input
             {...others}
